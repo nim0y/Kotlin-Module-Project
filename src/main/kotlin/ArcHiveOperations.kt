@@ -126,7 +126,9 @@ class ArcHiveOperations {
 
             }
         }
-        return println("")
+        return println(
+            "Для выбора заметки введите любое число.\n" +
+                    "Символ что бы вернуться")
 
     }
 
