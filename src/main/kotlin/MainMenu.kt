@@ -45,13 +45,15 @@ class Menu {
                 if (scan in 0..2) {
                     return scan
                 } else {
-                    Menu().showError()
-                    scanner.nextLine()
+                    repeatExtend()
                 }
             } else {
-                Menu().showError()
-                scanner.nextLine()
+                repeatExtend()
             }
         }
+    }
+    private fun repeatExtend(){
+        Menu().showError()
+        scanner.nextLine()
     }
 }
