@@ -8,11 +8,11 @@ class Steps {
             0 -> operate.createArcHive()
             1 -> {
                 if (operate.showArcHives() == null) {
-                } else if (ArcHiveOperations().scan.hasNextInt()) {
+                } else if (operate.scan.hasNextInt()) {
                     val arcHive = operate.selectArcHive()
                     noteJump(arcHive)
                 } else {
-                    println("")
+                    println()
 
                 }
             }
@@ -26,13 +26,13 @@ class Steps {
         }
     }
 
-    fun noteJump(arcHive: ArcHive) {
+    private fun noteJump(arcHive: ArcHive) {
         while (true) {
             when (menu.notesMenu()) {
                 0 -> operate.createNote(arcHive)
                 1 -> {
                     if (operate.selectNote(arcHive) == null) {
-                    } else if (ArcHiveOperations().scan.hasNextInt()) {
+                    } else if (operate.scan.hasNextInt()) {
                         val note = operate.showNotes(arcHive)
                         operate.showNoteDetails(note)
                     }

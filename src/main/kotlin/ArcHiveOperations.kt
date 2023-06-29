@@ -1,7 +1,7 @@
 import java.util.Scanner
 
 class ArcHiveOperations {
-    val scan = Scanner(System.`in`)
+    internal val scan = Scanner(System.`in`)
     private val arcHives: MutableList<ArcHive> = mutableListOf()
 
 
@@ -10,7 +10,6 @@ class ArcHiveOperations {
         val input = Scanner(System.`in`).nextLine()
         if (input.isEmpty()) {
             println("Вы не можете создать архив без заголовка")
-            return
         } else if (input.equals("-")) {
             return
         } else {
@@ -67,7 +66,6 @@ class ArcHiveOperations {
         while (true) {
             if (title.isEmpty()) {
                 println("Вы не можете создать заметку без заголовка или пустую заметку")
-                return
             } else if (title.equals("-")) {
                 return
             } else {
