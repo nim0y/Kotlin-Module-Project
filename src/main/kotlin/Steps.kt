@@ -26,7 +26,7 @@ class Steps {
         }
     }
 
-    private fun noteJump(arcHive: ArcHive) {
+    private fun noteJump(arcHive: Archive) {
         while (true) {
             when (menu.notesMenu()) {
                 0 -> operate.createNote(arcHive)

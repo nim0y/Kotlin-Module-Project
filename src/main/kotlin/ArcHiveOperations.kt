@@ -2,19 +2,19 @@ import java.util.Scanner
 
 class ArcHiveOperations {
     internal val scan = Scanner(System.`in`)
-    private val arcHives: MutableList<ArcHive> = mutableListOf()
+    private val arcHives: MutableList<Archive> = mutableListOf()
 
 
     fun createArcHive() {
         println("Введите название архива. Или \"-\" что бы вернуться.")
-        val input = Scanner(System.`in`).nextLine()
+        val input = scan.nextLine()
         if (input.isEmpty()) {
             println("Вы не можете создать архив без заголовка")
         } else if (input.equals("-")) {
             return
         } else {
             val notes = mutableListOf<Note>()
-            arcHives.add(ArcHive(input, notes))
+            arcHives.add(Archive(input, notes))
             println("Архив создан")
             return
 
@@ -28,8 +28,8 @@ class ArcHiveOperations {
             return null
         } else {
             println("\nСписок архивов:")
-            for ((index, ArcHive) in arcHives.withIndex()) {
-                println("${index + 1}. ${ArcHive.name}")
+            for ((index, archive) in arcHives.withIndex()) {
+                println("${index + 1}. ${archive.name}")
             }
         }
         return println(
@@ -38,28 +38,27 @@ class ArcHiveOperations {
         )
     }
 
-    fun selectArcHive(): ArcHive {
-        println("Выберите номер архива")
-        try {
-            while (true) {
-                if (scan.hasNextInt()) {
-                    while (true) {
-                        val c = scan.nextInt()
-                        return arcHives[c - 1]
+    fun selectArcHive(): Archive {
+        while (true) {
+            println("Выберите номер архива")
+            val input = scan.nextLine()
+            if (scan.hasNextInt()) {
+                try {
+                    val index = input.toInt() - 1
+                    if (index in arcHives.indices) {
+                        return arcHives[index]
+                    } else {
+                        println("Введите номер архива от 1 до ${arcHives.size}")
                     }
-                } else {
-                    println("Введите номер архива который хотите выбрать 1 до ${arcHives.size}")
-                    scan.next()
+                } catch (e: NumberFormatException) {
+                    println("Неверный ввод. Пожалуйста, введите число.")
                 }
             }
-        } catch (e: IndexOutOfBoundsException) {
-            println("Такого нет. Попробуйте еще.")
         }
-        return selectArcHive()
     }
 
 
-    fun createNote(ArcHive: ArcHive) {
+    fun createNote(ArcHive: Archive) {
 
         println("Введите название заметки. Или \"-\" что бы вернуться.")
         val title = Scanner(System.`in`).nextLine()
@@ -72,7 +71,7 @@ class ArcHiveOperations {
                 break
             }
         }
-        println("Ввведите текст заметки:")
+        println("Введите текст заметки:")
         val text = Scanner(System.`in`).nextLine()
         while (true) {
             if (text.isEmpty()) {
@@ -88,22 +87,20 @@ class ArcHiveOperations {
     }
 
 
-    fun showNotes(ArcHive: ArcHive): Note {
+    fun showNotes(ArcHive: Archive): Note {
         println("Выберите номер заметки")
         try {
-            val i = arcHives.indexOfFirst { it.name == ArcHive.name }
+                val i = arcHives.indexOfFirst { it.name == ArcHive.name }
+                while (true) {
+                    if (choice()) {
+                        val c = scan.nextInt()
+                        return arcHives[i].arcHivesList[c - 1]
+                    } else {
+                        println("Введите номер заметки от 1 до ${arcHives[i].arcHivesList.size}")
 
-
-            while (true) {
-
-                if (scan.hasNextInt()) {
-                    val choice = scan.nextInt()
-                    return arcHives[i].arcHivesList[choice - 1]
-                } else {
-                    println("Введите номер заметки от 1 до ${arcHives[i].arcHivesList.size}")
-                    scan.next()
+                    }
                 }
-            }
+
         } catch (e: IndexOutOfBoundsException) {
             println("Такой нет. Попробуйте еще.")
         }
@@ -111,7 +108,7 @@ class ArcHiveOperations {
     }
 
 
-    fun selectNote(ArcHive: ArcHive): Unit? {
+    fun selectNote(ArcHive: Archive): Unit? {
         val i = arcHives.indexOfFirst { it.name == ArcHive.toString() }
 
         if (arcHives[i].arcHivesList.isEmpty()) {
@@ -126,7 +123,8 @@ class ArcHiveOperations {
         }
         return println(
             "Для выбора заметки введите любое число.\n" +
-                    "Символ что бы вернуться")
+                    "Символ что бы вернуться"
+        )
 
     }
 
@@ -136,5 +134,9 @@ class ArcHiveOperations {
         println("Текст:\n ${notes.notesList}")
         println("Введите любой символ для выхода в меню заметок")
         scan.next()
+    }
+
+    private fun choice(): Boolean {
+        return Scanner(System.`in`).hasNextInt()
     }
 }

@@ -1,4 +1,4 @@
-data class ArcHive(
+data class Archive(
     val name: String,
     var arcHivesList: MutableList<Note>
 ) {
